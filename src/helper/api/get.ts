@@ -1,10 +1,12 @@
 import axios from "axios";
+import { server_url } from "../../constant/server_url";
 
-export const helperGet = (url: string, dto: any, cb: Function) => {
+export const helperGet = (path: string, cb: Function) => {
+  const api_url = server_url + path;
   axios
-    .post(url, dto, { withCredentials: true })
+    .get(api_url, { withCredentials: true })
     .then((res) => {
       cb(null, res.data);
     })
-    .catch((err) => cb(err));
+    .catch((err) => cb(err.response.data.message));
 };
