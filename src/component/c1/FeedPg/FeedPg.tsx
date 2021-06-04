@@ -4,7 +4,8 @@ import { globalContext } from "../../../store/context/globalContext";
 
 function FeedPg() {
   const { setCurrentUser } = useContext(globalContext);
-  const get_users_path = "user/";
+  // const get_users_path = "user/";
+  const get_users_path = "profile";
 
   useEffect(() => {
     helperGet(get_users_path, (err: string, result: any) => {
