@@ -1,18 +1,41 @@
 import React, { useContext } from "react";
-import FormManager from "../../c0/FormManager";
+import FormManager from "../../c0_common/FormManager";
 import { globalContext } from "../../../store/context/globalContext";
 import { Link, Redirect } from "react-router-dom";
+import AuthService from "../../../services/Auth";
+import usePost from "../../../services/usePost";
 
 function Login() {
   const { currentUser, setCurrentUser } = useContext(globalContext);
-
-  console.log("Login Login Login");
+  const [doPost] = usePost();
+  console.log("000000000000000000000");
+  console.log("currentUser");
+  console.log(currentUser);
 
   const handleSubmit = (values: any) => {
     console.log("handleSubmit");
     console.log(values);
+
+    // const queryData = LazyPost("auth/login", {
+    //   email: "bob@bob.com",
+    //   password: "bob@bob.com",
+    // });
+
+    // console.log("queryData");
+    // console.log(queryData);
+    doPost("auth/login", values, (res: any) => {
+      console.log("callback res");
+      console.log(res);
+      setCurrentUser(res);
+    });
+
+    console.log("1111111111111111111111");
+    console.log("currentUser");
+    console.log(currentUser);
+
+    // AuthService.login(values);
     // Makes an api call.
-    setCurrentUser({ id: "123", username: "bob" });
+    // setCurrentUser({ id: "123", username: "bob" });
   };
 
   if (currentUser) {

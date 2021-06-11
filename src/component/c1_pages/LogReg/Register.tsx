@@ -1,27 +1,22 @@
 import React from "react";
-import FormManager from "../../c0/FormManager";
-import { helperPost } from "../../../helper/api/post";
+import FormManager from "../../c0_common/FormManager";
+// import { helperPost } from "../../../services/api/post";
 import { Link } from "react-router-dom";
+import UserService from "../../../services/User";
 
 function Register() {
   const handleSubmit = (values: any) => {
     console.log("Register handleSubmit");
     console.log(values);
-    const register_path = "user/";
-    helperPost(register_path, values, (err: string, result: any) => {
-      if (err) {
-        console.log("Register handleSubmit error");
-        console.log(err);
-      } else {
-        if (result.issue) {
-          console.log("result.issue");
-          console.log(result.issue);
-        } else {
-          console.log("result.payload");
-          console.log(result.payload);
-        }
-      }
-    });
+
+    try {
+      UserService.registerUser(values);
+      console.log('returned!');
+      
+    } catch (error) {
+      const errorMessage = error.response.data.message;
+      console.log(errorMessage);
+    }
   };
 
   return (

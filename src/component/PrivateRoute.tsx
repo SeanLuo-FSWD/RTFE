@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import FeedPg from "./c1/FeedPg/FeedPg";
+import FeedPg from "./c1_pages/FeedPg/FeedPg";
 
 function PrivateRoute() {
   return (
