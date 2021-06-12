@@ -1,27 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import FormManager from "../../c0_common/FormManager";
 // import { helperPost } from "../../../services/api/post";
 import { Link } from "react-router-dom";
 import UserService from "../../../services/User";
+import usePost from "../../../services/usePost";
 
 function Register() {
+  const [_message, set_message] = useState("");
+  const [doPost] = usePost();
+
   const handleSubmit = (values: any) => {
     console.log("Register handleSubmit");
     console.log(values);
 
-    try {
-      UserService.registerUser(values);
-      console.log('returned!');
-      
-    } catch (error) {
-      const errorMessage = error.response.data.message;
-      console.log(errorMessage);
-    }
+    doPost("user", values, () => {
+      set_message("Registration success, please login now");
+    });
+
+    // try {
+    //   UserService.registerUser(values);
+    //   console.log('returned!');
+
+    // } catch (error) {
+    //   const errorMessage = error.response.data.message;
+    //   console.log(errorMessage);
+    // }
   };
 
   return (
     <div>
       <h2>Register page</h2>
+
+      {_message && <h2>{_message}</h2>}
 
       <FormManager initialValues={{ username: "", email: "", password: "" }}>
         {({ values, setValue }: any) => (

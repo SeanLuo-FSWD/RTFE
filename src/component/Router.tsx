@@ -5,6 +5,7 @@ import PrivateWrap from "./PrivateWrap";
 import Login from "./c1_pages/LogReg/Login";
 import Register from "./c1_pages/LogReg/Register";
 import ErrorHandler from "./ErrorHandler";
+import ErrorPg from "./c1_pages/ErrorPg/ErrorPg";
 
 function Router() {
   return (
@@ -13,6 +14,8 @@ function Router() {
         <Switch>
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
+          <Route path="/error" component={ErrorPg} />
+          {/* <Route path="/error" render={() => <ErrorPg />} /> */}
           <PrivateWrap>
             <PrivateRoute />
           </PrivateWrap>
