@@ -1,5 +1,5 @@
 import axios from "axios";
-import { server_url } from "../constant/server_url";
+import { server_url } from "../constant/constants";
 
 export default class BaseHttpService {
   static BASE_URL = server_url;
@@ -31,10 +31,10 @@ export default class BaseHttpService {
 
   static _handleHttpError(error: any) {
     const { statusCode } = error.response.data;
-    console.log('vvvvvvvvvvvvvvvvvvv');
-    console.log('error');
+    console.log("vvvvvvvvvvvvvvvvvvv");
+    console.log("error");
     console.log(error);
-    console.log('error.response');
+    console.log("error.response");
     console.log(error.response);
     if (statusCode !== 401) {
       throw error;

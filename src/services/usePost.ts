@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import { server_url } from "../constant/server_url";
+import { server_url } from "../constant/constants";
 
 const usePost = () => {
   const history = useHistory();

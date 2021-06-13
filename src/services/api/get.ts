@@ -1,5 +1,5 @@
 import axios from "axios";
-import { server_url } from "../../constant/server_url";
+import { server_url } from "../../constant/constants";
 
 export const helperGet = (path: string, cb: Function) => {
   const api_url = server_url + path;
