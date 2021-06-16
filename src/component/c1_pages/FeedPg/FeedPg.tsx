@@ -1,50 +1,55 @@
 import React, { useContext, useEffect, useState } from "react";
-import useQuery from "../../../services/useQuery";
+import useQuery from "../../../services/archive/useQuery";
 import { globalContext } from "../../../store/context/globalContext";
 import { get } from "lodash";
-import useFetchMyApi from "../../../services/useLazyQuery";
+import useFetchMyApi from "../../../services/archive/useLazyQuery";
+import useGet from "../../../services/useGet";
 
 function FeedPg() {
   const { setCurrentUser } = useContext(globalContext);
   const [_dog, set_dog] = useState("husky");
   const [_lazy_data, set_lazy_data] = useState("");
   const [items, locationFetch] = useFetchMyApi();
+  const [doGet] = useGet();
 
-  // useEffect(() => {
-  //   locationFetch("mylocation1");
-  // }, []);
-
-  // const { data } = useQuery({
   const { data } = useQuery({
     url: `https://dog.ceo/api/breed/${_dog}/images/random`,
   });
-
-  // const doLazyQuery = () => {
-  //   const selectedLocation = "locationSelect.current.value";
-  //   locationFetch(selectedLocation);
-  // };
 
   const doLazyQuery = () => {
     locationFetch(`https://dog.ceo/api/breed/${_dog}/images/random`);
   };
 
-  // const get_users_path = "user/";
-  const get_users_path = "/auth/profile";
   const imageSrc = get(data, "message");
+
+  const handleLogout = () => {
+    doGet("auth/logout", (res: any) => {
+      console.log("handleLogout callback res");
+      console.log(res);
+      setCurrentUser(null);
+    });
+  };
+
+  const toggleDog = () => {
+    _dog === "husky" ? set_dog("pitbull") : set_dog("husky");
+  };
+
+  const handleGetSubmit = (url: string) => {
+    doGet(url, (res: any) => {
+      console.log("handleGetSubmit callback res");
+      console.log(res);
+    });
+  };
+
+  // useEffect(() => {
+  //   handleGetSubmit("auth/profile");
+  // }, []);
 
   useEffect(() => {
     console.log("999999999999999999999");
     console.log(_dog);
     console.log(items);
   });
-
-  const handleLogout = () => {
-    setCurrentUser(null);
-  };
-
-  const toggleDog = () => {
-    _dog === "husky" ? set_dog("pitbull") : set_dog("husky");
-  };
 
   return (
     <div>

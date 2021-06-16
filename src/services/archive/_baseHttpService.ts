@@ -1,5 +1,5 @@
 import axios from "axios";
-import { server_url } from "../constant/constants";
+import { server_url } from "../../constant/constants";
 
 export default class BaseHttpService {
   static BASE_URL = server_url;

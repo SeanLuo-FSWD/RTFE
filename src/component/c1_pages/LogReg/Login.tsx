@@ -2,47 +2,38 @@ import React, { useContext } from "react";
 import FormManager from "../../c0_common/FormManager";
 import { globalContext } from "../../../store/context/globalContext";
 import { Link, Redirect } from "react-router-dom";
-import AuthService from "../../../services/Auth";
+import AuthService from "../../../services/archive/Auth";
 import usePost from "../../../services/usePost";
+import useGet from "../../../services/useGet";
 
 function Login() {
   const { currentUser, setCurrentUser } = useContext(globalContext);
   const [doPost] = usePost();
+  const [doGet] = useGet();
   console.log("000000000000000000000");
   console.log("currentUser");
   console.log(currentUser);
 
-  const handleSubmit = (values: any) => {
-    console.log("handleSubmit");
-    console.log(values);
+  const googleLogin = () => {
+    window.open("http://localhost:8000/api/auth/google", "_self");
+  };
 
-    // const queryData = LazyPost("auth/login", {
-    //   email: "bob@bob.com",
-    //   password: "bob@bob.com",
-    // });
-
-    // console.log("queryData");
-    // console.log(queryData);
-    doPost("auth/login", values, (res: any) => {
+  const handlePostSubmit = (url: string, values: any) => {
+    doPost(url, values, (res: any) => {
       console.log("callback res");
       console.log(res);
       setCurrentUser(res);
     });
+  };
 
-    console.log("1111111111111111111111");
-    console.log("currentUser");
-    console.log(currentUser);
-
-    // AuthService.login(values);
-    // Makes an api call.
-    // setCurrentUser({ id: "123", username: "bob" });
+  const handleGetSubmit = (url: string) => {
+    doGet(url, (res: any) => {
+      console.log("handleGetSubmit callback res");
+      console.log(res);
+    });
   };
 
   if (currentUser) {
-    console.log("currentUser");
-
-    console.log(currentUser);
-
     return <Redirect to="/home" />;
   }
   return (
@@ -54,7 +45,7 @@ function Login() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(values);
+              handlePostSubmit("auth/login", values);
             }}
           >
             <input
@@ -80,6 +71,15 @@ function Login() {
       <Link to="/register">
         <button>Register page</button>
       </Link>
+
+      <button
+        // onClick={() => {
+        //   handleGetSubmit("auth/google");
+        // }}
+        onClick={googleLogin}
+      >
+        Google Login
+      </button>
     </div>
   );
 }

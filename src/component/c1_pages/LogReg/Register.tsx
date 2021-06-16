@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import FormManager from "../../c0_common/FormManager";
 // import { helperPost } from "../../../services/api/post";
 import { Link } from "react-router-dom";
-import UserService from "../../../services/User";
+import UserService from "../../../services/archive/User";
 import usePost from "../../../services/usePost";
 
 function Register() {
