@@ -22,19 +22,18 @@ function Login() {
     doPost(url, values, (res: any) => {
       console.log("callback res");
       console.log(res);
-      setCurrentUser(res);
-    });
-  };
+      // setCurrentUser(res);
+      doGet("auth/authenticate", (res: any) => {
+        console.log("auth/authenticate success : res.data");
+        console.log(res);
 
-  const handleGetSubmit = (url: string) => {
-    doGet(url, (res: any) => {
-      console.log("handleGetSubmit callback res");
-      console.log(res);
+        setCurrentUser(res);
+      });
     });
   };
 
   if (currentUser) {
-    return <Redirect to="/home" />;
+    return <Redirect to="/" />;
   }
   return (
     <div>

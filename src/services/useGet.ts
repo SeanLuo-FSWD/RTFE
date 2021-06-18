@@ -20,6 +20,8 @@ const useGet = () => {
       })
       .catch((err) => {
         console.log("doGet : err");
+        console.log(err);
+
         console.log(err.response.data.statusCode);
         console.log(err.response.data.message);
 
