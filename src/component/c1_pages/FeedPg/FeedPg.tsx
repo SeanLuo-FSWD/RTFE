@@ -6,7 +6,7 @@ import useFetchMyApi from "../../../services/archive/useLazyQuery";
 import useGet from "../../../services/useGet";
 
 function FeedPg() {
-  const { setCurrentUser } = useContext(globalContext);
+  const { currentUser, setCurrentUser } = useContext(globalContext);
   const [_dog, set_dog] = useState("husky");
   const [_lazy_data, set_lazy_data] = useState("");
   const [items, locationFetch] = useFetchMyApi();
@@ -53,7 +53,7 @@ function FeedPg() {
 
   return (
     <div>
-      <h2>Welcome, you are logged in</h2>
+      <h2>Welcome, you are logged in as {currentUser!.username}</h2>
       <button onClick={handleLogout}>logout</button>
       {!imageSrc && <p>Loading...</p>}
       {imageSrc && <img alt={`A nice husky`} src={imageSrc} height={200} />}

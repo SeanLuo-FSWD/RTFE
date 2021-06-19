@@ -8,6 +8,8 @@ const useGet = () => {
   // const [_postData, set_postData] = React.useState(null) as any;
 
   const doGet = (path: string, cb?: Function) => {
+    console.log("doGet called with ===== : " + path);
+
     axios
       .get(`${server_url}${path}`, { withCredentials: true })
       .then((response) => {

@@ -12,7 +12,7 @@ import useGet from "../../services/useGet";
 
 interface IGlobalContext {
   currentUser: IUser | null;
-  setCurrentUser: Dispatch<SetStateAction<any | null>>;
+  setCurrentUser: Dispatch<SetStateAction<IUser | null>>;
 }
 
 export const globalContext = createContext({} as IGlobalContext);

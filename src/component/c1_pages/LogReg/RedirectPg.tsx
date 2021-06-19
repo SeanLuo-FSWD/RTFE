@@ -5,6 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import { globalContext } from "../../../store/context/globalContext";
 import axios from "axios";
 import { AxiosResponse } from "axios";
+import { server_url } from "../../../constant/constants";
 
 function RedirectPg() {
   const [doGet] = useGet();
@@ -13,13 +14,16 @@ function RedirectPg() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8000/api/auth/authenticate", {
+      .get(`${server_url}auth/authenticate`, {
         withCredentials: true,
       })
       .then((res: AxiosResponse) => {
         console.log("3rd party auth successsss in RedirectPg");
-        console.log(res.data);
-        setCurrentUser(res.data);
+        const userObj: IUser = {
+          userId: res.data.userId,
+          username: res.data.username,
+        };
+        setCurrentUser(userObj);
       })
       .catch((err) => {
         console.log("error in RedirectPg");

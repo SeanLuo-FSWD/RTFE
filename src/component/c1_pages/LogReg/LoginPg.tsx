@@ -5,14 +5,20 @@ import { Link, Redirect } from "react-router-dom";
 import AuthService from "../../../services/archive/Auth";
 import usePost from "../../../services/usePost";
 import useGet from "../../../services/useGet";
+import useAuthenticate from "../../../helper/hooks/useAuthenticate";
+import { IUser } from "../../../interface/IUser";
 
 function Login() {
+  // const boo = useAuthenticate();
+  // console.log("logging boo");
+
+  // console.log(boo);
+
+  useAuthenticate();
+
   const { currentUser, setCurrentUser } = useContext(globalContext);
   const [doPost] = usePost();
   const [doGet] = useGet();
-  console.log("000000000000000000000");
-  console.log("currentUser");
-  console.log(currentUser);
 
   const googleLogin = () => {
     window.open("http://localhost:8000/api/auth/google", "_self");
@@ -20,14 +26,13 @@ function Login() {
 
   const handlePostSubmit = (url: string, values: any) => {
     doPost(url, values, (res: any) => {
-      console.log("callback res");
-      console.log(res);
-      // setCurrentUser(res);
       doGet("auth/authenticate", (res: any) => {
         console.log("auth/authenticate success : res.data");
-        console.log(res);
-
-        setCurrentUser(res);
+        const userObj: IUser = {
+          userId: res.userId,
+          username: res.username,
+        };
+        setCurrentUser(userObj);
       });
     });
   };
@@ -71,14 +76,7 @@ function Login() {
         <button>Register page</button>
       </Link>
 
-      <button
-        // onClick={() => {
-        //   handleGetSubmit("auth/google");
-        // }}
-        onClick={googleLogin}
-      >
-        Google Login
-      </button>
+      <button onClick={googleLogin}>Google Login</button>
     </div>
   );
 }
