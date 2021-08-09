@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
-import FormManager from "../../c0_common/FormManager";
+import FormManager from "../../helper/FormManager";
 import { globalContext } from "../../../store/context/globalContext";
 import { Link, Redirect } from "react-router-dom";
-import AuthService from "../../../services/archive/Auth";
+import AuthService from "../../../../archive/services_api/Auth";
 import usePost from "../../../services/usePost";
 import useGet from "../../../services/useGet";
 import useAuthenticate from "../../../helper/hooks/useAuthenticate";
 import { IUser } from "../../../interface/IUser";
+import { Helmet } from 'react-helmet';
 
-function Login() {
+function LoginPg() {
   // const boo = useAuthenticate();
   // console.log("logging boo");
 
@@ -42,7 +43,10 @@ function Login() {
   }
   return (
     <div>
-      <h2>Login page</h2>
+        <Helmet>
+          <title>Login Page</title>
+        </Helmet>
+      <h2 data-cy="LoginPg_title">Login page</h2>
 
       <FormManager initialValues={{ email: "", password: "" }}>
         {({ values, setValue }: any) => (
@@ -53,6 +57,7 @@ function Login() {
             }}
           >
             <input
+              name="email"
               placeholder="Email"
               value={values.email}
               type="email"
@@ -61,6 +66,7 @@ function Login() {
               }}
             />
             <input
+              name="password"
               placeholder="Password"
               value={values.password}
               type="password"
@@ -68,7 +74,7 @@ function Login() {
                 setValue("password", e.target.value);
               }}
             />
-            <button type="submit">Login</button>
+            <button type="submit" data-cy="LoginPg_submit">Login</button>
           </form>
         )}
       </FormManager>
@@ -81,4 +87,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default LoginPg;

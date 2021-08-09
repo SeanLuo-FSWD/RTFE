@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+// Cypress.Commands.add('login', (email, password) => {
+//     return cy.window().then(win => {
+//       return win.app.$store.dispatch('login', {
+//         email: 'amir@cypress.io',
+//         password: '1234'
+//       })
+//     })
+// })

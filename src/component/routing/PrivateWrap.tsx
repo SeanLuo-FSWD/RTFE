@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { globalContext } from "../store/context/globalContext";
+import { globalContext } from "../../store/context/globalContext";
 import { Redirect } from "react-router-dom";
-import useGet from "../services/useGet";
+import useGet from "../../services/useGet";
 import axios from "axios";
 
 // import LogReg from "./c1/LogReg/LogReg";

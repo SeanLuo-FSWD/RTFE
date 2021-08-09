@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import PrivateWrap from "./PrivateWrap";
-import Login from "./c1_pages/LogReg/LoginPg";
-import Register from "./c1_pages/LogReg/RegisterPg";
+import LoginPg from "../pages/LogReg/LoginPg";
+import Register from "../pages/LogReg/RegisterPg";
 import ErrorHandler from "./ErrorHandler";
-import ErrorPg from "./c1_pages/ErrorPg/ErrorPg";
-import RedirectPg from "./c1_pages/LogReg/RedirectPg";
+import ErrorPg from "../pages/ErrorPg/ErrorPg";
+import RedirectPg from "../pages/LogReg/RedirectPg";
 
 function Router() {
   return (
@@ -15,7 +15,7 @@ function Router() {
         <Switch>
           <Route path="/redirect" component={RedirectPg} />
           <Route path="/register" component={Register} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={LoginPg} />
           <Route path="/error" component={ErrorPg} />
           {/* <Route path="/error" render={() => <ErrorPg />} /> */}
           <PrivateWrap>

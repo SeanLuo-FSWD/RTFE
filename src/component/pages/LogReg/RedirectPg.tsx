@@ -5,10 +5,9 @@ import { Link, Redirect } from "react-router-dom";
 import { globalContext } from "../../../store/context/globalContext";
 import axios from "axios";
 import { AxiosResponse } from "axios";
-import { server_url } from "../../../constant/constants";
+import { server_url } from "../../../constants";
 
 function RedirectPg() {
-  const [doGet] = useGet();
   const { currentUser, setCurrentUser } = useContext(globalContext);
   const [_error, set_error] = useState(null);
 

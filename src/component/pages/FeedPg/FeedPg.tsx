@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import useQuery from "../../../services/archive/useQuery";
+import useQuery from "../../../services/useQuery";
 import { globalContext } from "../../../store/context/globalContext";
 import { get } from "lodash";
-import useFetchMyApi from "../../../services/archive/useLazyQuery";
+import useFetchMyApi from "../../../services/useLazyQuery";
 import useGet from "../../../services/useGet";
+import { Helmet } from "react-helmet";
 
 function FeedPg() {
   const { currentUser, setCurrentUser } = useContext(globalContext);
@@ -53,6 +54,9 @@ function FeedPg() {
 
   return (
     <div>
+      <Helmet>
+        <title>Feed Page</title>
+      </Helmet>
       <h2>Welcome, you are logged in as {currentUser!.username}</h2>
       <button onClick={handleLogout}>logout</button>
       {!imageSrc && <p>Loading...</p>}
