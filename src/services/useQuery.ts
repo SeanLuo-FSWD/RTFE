@@ -16,6 +16,7 @@ const useQuery = ({ url }: { url: string }) => {
       .get(url)
       .then((response) => {
         // S4. Setting this triggers a rerender
+        console.log('useQuery response data : ' + response.data.payload);
         setApiData(response.data);
       })
       .catch((err) => {
@@ -27,7 +28,7 @@ const useQuery = ({ url }: { url: string }) => {
 
   // S2. Returning {data: undefined}
   // S6. second run, returning desired data
-  return { data: apiData };
+  return  apiData ;
 };
 
 export default useQuery;

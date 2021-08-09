@@ -1,6 +1,6 @@
 import React from "react";
 import { Route } from "react-router-dom";
-import FeedPg from "../pages/FeedPg/FeedPg";
+import HomePg from "../pages/HomePg/HomePg";
 
 function PrivateRoute() {
   return (
@@ -10,7 +10,7 @@ function PrivateRoute() {
       <Route path="/account"></Route> */}
 
       <Route path="/">
-        <FeedPg />
+        <HomePg />
       </Route>
     </>
   );
