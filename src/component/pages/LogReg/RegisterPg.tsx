@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import FormManager from "../../helper/FormManager";
 // import { helperPost } from "../../../services/api/post";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import UserService from "../../../../archive/services_api/User";
 import usePost from "../../../services/usePost";
+import { globalContext } from "../../../store/context/globalContext";
+import useAuthenticate from "../../../helper/hooks/useAuthenticate";
 
 function Register() {
   const [_message, set_message] = useState("");
+  const { currentUser, setCurrentUser } = useContext(globalContext);
+
   const [doPost] = usePost();
 
   const handleSubmit = (values: any) => {
@@ -27,6 +31,12 @@ function Register() {
     // }
   };
 
+  useAuthenticate();
+
+  if (currentUser) {
+    console.log("vvvvvvvvvvvvvvvvvvv");
+    return <Redirect to="/" />;
+  }
   return (
     <div>
       <h2>Register page</h2>

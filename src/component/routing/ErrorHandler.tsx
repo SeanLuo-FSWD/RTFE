@@ -5,16 +5,35 @@ import ErrorPg from "../pages/ErrorPg/ErrorPg";
 
 const ErrorHandler = ({ children }: any) => {
   const location = useLocation();
+  console.log("ErrorHandler called");
 
-  const errorMsg = get(location.state, "errorMsg");
-  const pathname = window.location.pathname;
+  const err_msg = get(location.state, "errorMsg");
 
-  return errorMsg ? (
+  let goback_path;
+  let redirect_path;
+
+  if (err_msg) {
+    console.log("ErrorHandler found error :");
+    console.log(err_msg);
+  }
+
+  switch (err_msg) {
+    case "Forbidden resource":
+      redirect_path = "/login";
+      break;
+
+    default:
+      goback_path = window.location.pathname;
+      redirect_path = "/error";
+      break;
+  }
+
+  return err_msg ? (
     <Redirect
       push
       to={{
-        pathname: "/error",
-        state: { err_msg: errorMsg, pathname },
+        pathname: redirect_path,
+        state: { err_msg, goback_path },
       }}
     />
   ) : (

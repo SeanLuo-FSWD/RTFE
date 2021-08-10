@@ -7,16 +7,9 @@ import usePost from "../../../services/usePost";
 import useGet from "../../../services/useGet";
 import useAuthenticate from "../../../helper/hooks/useAuthenticate";
 import { IUser } from "../../../interface/IUser";
-import { Helmet } from 'react-helmet';
+import { Helmet } from "react-helmet";
 
 function LoginPg() {
-  // const boo = useAuthenticate();
-  // console.log("logging boo");
-
-  // console.log(boo);
-
-  useAuthenticate();
-
   const { currentUser, setCurrentUser } = useContext(globalContext);
   const [doPost] = usePost();
   const [doGet] = useGet();
@@ -38,14 +31,16 @@ function LoginPg() {
     });
   };
 
+  useAuthenticate();
+
   if (currentUser) {
     return <Redirect to="/" />;
   }
   return (
     <div>
-        <Helmet>
-          <title>Login Page</title>
-        </Helmet>
+      <Helmet>
+        <title>Login Page</title>
+      </Helmet>
       <h2 data-cy="LoginPg_title">Login page</h2>
 
       <FormManager initialValues={{ email: "", password: "" }}>
@@ -74,7 +69,9 @@ function LoginPg() {
                 setValue("password", e.target.value);
               }}
             />
-            <button type="submit" data-cy="LoginPg_submit">Login</button>
+            <button type="submit" data-cy="LoginPg_submit">
+              Login
+            </button>
           </form>
         )}
       </FormManager>

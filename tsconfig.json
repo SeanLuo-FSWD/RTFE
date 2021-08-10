@@ -21,6 +21,5 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
-, "archive/services_api/api", "archive/services_api"  ]
+    "src"]
 }

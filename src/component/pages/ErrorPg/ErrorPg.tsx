@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const ErrorPg = (props: any) => {
-  const prev_path = props.location.state.pathname;
+  const goback_path = props.location.state.goback_path;
   const err_msg = props.location.state.err_msg;
   return (
     <div>
@@ -14,7 +14,9 @@ const ErrorPg = (props: any) => {
       ) : (
         <h2 data-cy="ErrorPg_errMsg">{err_msg}</h2>
       )}
-      <Link data-cy="ErrorPg_back" to={prev_path}>Back</Link>
+      <Link data-cy="ErrorPg_back" to={goback_path}>
+        Back
+      </Link>
     </div>
   );
 };

@@ -17,12 +17,11 @@ function Router() {
           <Route path="/register" component={Register} />
           <Route path="/login" component={LoginPg} />
           <Route path="/error" component={ErrorPg} />
-          <Route path="/public" component={ErrorPg} />
 
           {/* <Route path="/error" render={() => <ErrorPg />} /> */}
-          <PrivateWrap>
+          {/* <PrivateWrap> */}
             <PrivateRoute />
-          </PrivateWrap>
+          {/* </PrivateWrap> */}
         </Switch>
       </ErrorHandler>
     </BrowserRouter>
