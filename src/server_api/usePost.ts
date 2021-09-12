@@ -19,13 +19,17 @@ const usePost = () => {
         }
       })
       .catch((err) => {
-        console.log(err.response.data.statusCode);
-        console.log(err.response.data.message);
-        // throw new HttpException("Forbiddenzzzzzzz", 408);
+        const errorStatusCode = err.response
+          ? err.response.data.statusCode
+          : 503;
+
+        const errorMsg = err.response
+          ? err.response.data.message
+          : "Server is down";
 
         history.replace(history.location.pathname, {
-          errorStatusCode: err.response.data.statusCode,
-          errorMsg: err.response.data.message,
+          errorStatusCode: errorStatusCode,
+          errorMsg: errorMsg,
         });
       });
   };

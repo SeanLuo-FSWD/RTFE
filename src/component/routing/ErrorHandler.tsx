@@ -6,6 +6,7 @@ import ErrorPg from "../pages/ErrorPg/ErrorPg";
 const ErrorHandler = ({ children }: any) => {
   const location = useLocation();
   console.log("ErrorHandler called");
+  console.log(location.state);
 
   const err_msg = get(location.state, "errorMsg");
 

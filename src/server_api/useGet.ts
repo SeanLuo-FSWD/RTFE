@@ -22,14 +22,20 @@ const useGet = () => {
       })
       .catch((err) => {
         console.log("doGet : err");
+
         console.log(err);
 
-        console.log(err.response.data.statusCode);
-        console.log(err.response.data.message);
+        const errorStatusCode = err.response
+          ? err.response.data.statusCode
+          : 503;
+
+        const errorMsg = err.response
+          ? err.response.data.message
+          : "Server is down";
 
         history.replace(history.location.pathname, {
-          errorStatusCode: err.response.data.statusCode,
-          errorMsg: err.response.data.message,
+          errorStatusCode: errorStatusCode,
+          errorMsg: errorMsg,
         });
       });
   };
