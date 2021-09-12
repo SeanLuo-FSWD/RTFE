@@ -3,22 +3,26 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { server_url } from "../env.config";
 
-const usePost = () => {
+const usePostForm = () => {
   const history = useHistory();
 
-  const doPost = (path: string, dto: any, cb?: Function) => {
-    axios
-      .post(`${server_url}${path}`, dto, { withCredentials: true })
-      .then((response) => {
-        // set_postData(response.data);
-        if (cb) {
-          console.log("doPost : response.data");
-          console.log(response.data);
-          cb(response.data);
-        }
+  const doPostForm = (path: string, bodyFormData: any, cb?: any) => {
+    axios({
+      method: "POST",
+      url: path,
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    })
+      .then(function (response) {
+        console.log("doPostSubmit response");
+        console.log(response);
+        // let post_obj = response.data;
+        // post_obj["like_arr"] = [];
+        // cb(post_obj);
       })
-      .catch((err) => {
-        console.log("doPost : err");
+      .catch(function (err) {
+        console.log("doPostSubmit : err");
 
         console.log(err);
 
@@ -42,7 +46,7 @@ const usePost = () => {
       });
   };
 
-  return [doPost];
+  return [doPostForm];
 };
 
-export default usePost;
+export default usePostForm;
