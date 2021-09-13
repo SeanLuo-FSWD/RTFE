@@ -11,8 +11,6 @@ function Navbar() {
 
   const handleLogout = () => {
     doGet("auth/logout", (res: any) => {
-      console.log("handleLogout callback");
-
       setCurrentUser(null);
       history.push("/login");
     });
@@ -20,7 +18,7 @@ function Navbar() {
 
   return (
     <div className={`${styles.nav_container}`}>
-      <h3>Welcome, {currentUser}</h3>
+      <h3>Welcome, {currentUser.username}</h3>
 
       <button onClick={handleLogout}>logout</button>
     </div>

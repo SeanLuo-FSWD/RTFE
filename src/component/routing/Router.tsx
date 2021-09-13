@@ -13,15 +13,14 @@ function Router() {
   const [doGet] = useGet();
   let user;
 
-  doGet("auth/authenticate", (res: any) => {
-    console.log("Router - Get auth/authenticate: res");
-    console.log(res);
-
-    if (res) {
-      user = res.username;
-      setCurrentUser(res.username);
-    }
-  });
+  useEffect(() => {
+    doGet("auth/authenticate", (res: any) => {
+      if (res) {
+        user = res.username;
+        setCurrentUser(res);
+      }
+    });
+  }, []);
 
   return (
     <BrowserRouter>
