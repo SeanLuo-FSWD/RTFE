@@ -7,6 +7,7 @@ import useGet from "../../server_api/useGet";
 import ProtectedRoute from "./ProtectedRoute";
 import HomePg from "../pages/HomePg/HomePg";
 import { globalContext } from "../../store/context/globalContext";
+import CalendarPg from "../pages/Calendar/CalendarPg";
 
 function Router() {
   const { currentUser, setCurrentUser } = useContext(globalContext);
@@ -29,6 +30,11 @@ function Router() {
           <Route path="/error" component={ErrorPg} />
           <Route path="/login" component={LoginPg} />
 
+          <ProtectedRoute
+            path="/calendar"
+            Component={CalendarPg}
+            isAuth={currentUser}
+          />
           <ProtectedRoute path="/" Component={HomePg} isAuth={currentUser} />
         </Switch>
       </ErrorHandler>

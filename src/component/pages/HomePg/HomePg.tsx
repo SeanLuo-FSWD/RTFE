@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 import Navbar from "../../Navbar/Navbar";
 import usePostForm from "../../../server_api/usePostForm";
 import { server_url } from "../../../env.config";
-
 function HomePg() {
   const [Files, setFiles] = useState(null) as any;
   const { currentUser, setCurrentUser } = useContext(globalContext);
@@ -48,7 +47,7 @@ function HomePg() {
 
   return (
     <div>
-      <Navbar></Navbar>
+      <Navbar />
       <Helmet>
         <title>Home Page</title>
       </Helmet>

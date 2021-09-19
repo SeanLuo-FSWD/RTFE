@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "declaration": true, // Generate d.ts files.
+    "emitDeclarationOnly": true, // This compiler run should only output d.ts files.
+    "outDir": "dist", // Types should go into this directory. Removing this would place the .d.ts files next to the .js files.
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -20,6 +19,5 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src"]
+  "include": ["src", "node_modules/rc-year-calendar/**/*"]
 }
