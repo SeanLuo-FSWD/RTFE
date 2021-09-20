@@ -5,12 +5,31 @@ export const INITIAL_EVENTS = [
   {
     id: createEventId(),
     title: "All-day event",
-    start: todayStr,
+    type: "once",
+    start: "Sep 19 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
+    end: "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
   },
   {
     id: createEventId(),
     title: "Timed event",
-    start: todayStr + "T12:00:00",
+    type: "once",
+    description: "event description here",
+    start: "Sep 21 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
+    end: "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
+  },
+  {
+    id: createEventId(),
+    title: "Monthly reoccuring",
+    type: "monthly",
+    description: "Monthly event description here",
+    days: [20, 30],
+  },
+  {
+    id: createEventId(),
+    title: "Weely reoccuring",
+    type: "weekly",
+    description: "Weely event description here",
+    days: [0, 5],
   },
 ];
 
