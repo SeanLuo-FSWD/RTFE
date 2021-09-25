@@ -22,17 +22,15 @@ Modal.setAppElement("#root");
 let event_data = {
   id: null,
   title: null,
-  start: null,
-  end: null,
+  description: null,
+  duration: [],
 } as any;
 
-const initialForm = 
-  {
-    title: null,
-    description: null,
-    type: "once",
-  }
-
+const initialForm = {
+  title: null,
+  description: null,
+  type: "once",
+};
 
 function CalendarPg() {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -45,20 +43,16 @@ function CalendarPg() {
 
   // });
 
+  useEffect(() => {}, [formValue]);
+
   const date_select = () => {
     switch (formValue.type) {
       case "once":
         return (
           <>
             <p>Pick start and end date</p>
-            {formValue.start && <p>Start: {formValue.start}</p>}
-            {formValue.end && <p>End: {formValue.end}</p>}
-
-            <Picker
-              onChange={(date: any) =>
-                pickDates(date)
-              }
-            />
+            {/* {formValue.duration[0] && <p>Start: {formValue.duration[0]}</p>} */}
+            <Picker onChange={(date: any) => pickDates(date)} />
           </>
         );
 
@@ -72,53 +66,40 @@ function CalendarPg() {
   };
 
   const pickDates = (date: any) => {
-    if (!formValue.start && !formValue.end) {
-      setFormValue({ ...formValue, start: date.toString() });
-    } else if (formValue.start && !formValue.end) {
-      if (new Date(formValue.start) > date) {
-        // if existing start date is later than entered date, set existing as end date and entered date as start.
-        setFormValue({
-          ...formValue,
-          start: date.toString(),
-          end: formValue.start,
-        });
-      } else if (new Date(formValue.start) < date) {
-        // if existing start date is earlier than entered date, set entered date as end date.
-        setFormValue({
-          ...formValue,
-          end: date.toString(),
-        });
-      } else {
-        // if both date same
-        setFormValue({
-          ...formValue,
-          start: date.toString(),
-          end: date.toString(),
-        });
-      }
-    } else if (formValue.start && formValue.end) {
-      if (date < new Date(formValue.start)) {
-        // if earlier than start, then set as new start.
-        setFormValue({ ...formValue, start: date.toString() });
-      } else if (date > new Date(formValue.start)) {
-        setFormValue({ ...formValue, end: date.toString() });
-      }
-    }
+    console.log("pickDates");
+    console.log(date);
+
+    let new_duration = formValue.duration.push(date.toString());
+
+    new_duration = formValue.duration.sort((a: any, b: any) => {
+      const dateA = new Date(a);
+      const dateB = new Date(b);
+      return dateA.valueOf() - dateB.valueOf();
+    });
+
+    console.log("new duration");
+    console.log(new_duration);
+
+    setFormValue({
+      ...formValue,
+      duration: new_duration,
+    });
   };
 
   const newEventSubmit = (e: any) => {
     e.preventDefault();
 
-    console.log('formValue.end formValue.end ' + formValue.end);
-    
+    console.log("formValue.duration[1] formValue.duration[1] ");
+    console.dir(formValue);
 
-    let date = new Date(formValue.end).setHours(24, 0,0,0)
+    let date = new Date(formValue.duration[1]).setHours(24, 0, 0, 0);
     let fixed_date = new Date(date);
 
-    console.log('corrected_end_date corrected_end_date corrected_end_date: ' + fixed_date);
-    
-    
-    INITIAL_EVENTS.push({...formValue, end: fixed_date.toString()});
+    console.log(
+      "corrected_end_date corrected_end_date corrected_end_date: " + fixed_date
+    );
+
+    INITIAL_EVENTS.push({ ...formValue, end: fixed_date.toString() });
     setFormValue(initialForm);
     closeModal();
   };
@@ -144,21 +125,21 @@ function CalendarPg() {
   }
 
   const onSelect = (date: any) => {
-
     let clickedDay = new Date(date);
-    let formatDay = new Date(clickedDay.getFullYear(), clickedDay.getMonth(), clickedDay.getDate(), 0, 0, 0).toString()
+    let formatDay = new Date(
+      clickedDay.getFullYear(),
+      clickedDay.getMonth(),
+      clickedDay.getDate(),
+      0,
+      0,
+      0
+    ).toString();
 
-          // setFormValue({
-      //   ...formValue,
-      //   start: new Date(clickedDay.getFullYear(), clickedDay.getMonth(), clickedDay.getDate(), 0, 0, 0)
-      // });
     setFormValue({
       ...formValue,
-      start: formatDay
+      duration: [formatDay],
     });
     setIsFormOpen(true);
-
-    
   };
 
   const dateCellRender = (date: any) => {
@@ -173,8 +154,8 @@ function CalendarPg() {
       );
 
       if (ele.type === "once") {
-        startDate = new Date(ele.start!);
-        endDate = new Date(ele.end!);
+        startDate = new Date(ele.duration![0]);
+        endDate = new Date(ele.duration![1]);
         // console.log('calDate ' + calDate);
         // console.log('startDate ' + startDate);
         // console.log('endDate ' + endDate);
@@ -190,7 +171,7 @@ function CalendarPg() {
         for (let i = 0; i < ele.days!.length; i++) {
           if (day === ele.days![i]) {
             return item;
-          } 
+          }
         }
       }
     });
@@ -217,11 +198,11 @@ function CalendarPg() {
           <input />
           <p>Title: {event_data.title}</p>
           <p>Description: {event_data.description}</p>
-          {event_data.start && (
+          {event_data.duration[0] && (
             <div>
               {" "}
-              <p>start: {event_data.start}</p>
-              <p>end: {event_data.end}</p>
+              <p>start: {event_data.duration[0]}</p>
+              <p>end: {event_data.duration[1]}</p>
             </div>
           )}
         </form>
