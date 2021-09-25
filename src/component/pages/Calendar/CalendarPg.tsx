@@ -30,12 +30,18 @@ const initialForm = {
   title: null,
   description: null,
   type: "once",
+  duration: [],
 };
 
 function CalendarPg() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formModalIsOpen, setIsFormOpen] = useState(false);
   const [formValue, setFormValue] = useState(initialForm) as any;
+  console.log("000000000000000000000");
+  console.log("000000000000000000000");
+  console.log(formValue.duration);
+
+  let dates_record: any = formValue.duration;
 
   // useEffect(() => {
   //   // console.log('formValue');
@@ -43,15 +49,30 @@ function CalendarPg() {
 
   // });
 
-  useEffect(() => {}, [formValue]);
-
   const date_select = () => {
     switch (formValue.type) {
       case "once":
         return (
           <>
             <p>Pick start and end date</p>
-            {/* {formValue.duration[0] && <p>Start: {formValue.duration[0]}</p>} */}
+            <p>
+              Start date:{" "}
+              {formValue.duration[0] ? (
+                <span> {formValue.duration[0]}</span>
+              ) : (
+                <span> ?</span>
+              )}
+            </p>
+
+            <p>
+              End date:{" "}
+              {formValue.duration[1] ? (
+                <span> {formValue.duration[1]}</span>
+              ) : (
+                <span> ?</span>
+              )}
+            </p>
+
             <Picker onChange={(date: any) => pickDates(date)} />
           </>
         );
@@ -68,16 +89,26 @@ function CalendarPg() {
   const pickDates = (date: any) => {
     console.log("pickDates");
     console.log(date);
+    const date_str = date.toISOString().replace(/T.*$/, "");
+    console.log("why is this a number?");
+    console.log(dates_record);
 
-    let new_duration = formValue.duration.push(date.toString());
+    dates_record.push(date_str);
+    dates_record = dates_record.splice(-2);
+    console.log("dates_record");
+    console.log(dates_record);
 
-    new_duration = formValue.duration.sort((a: any, b: any) => {
+    let new_duration = dates_record.sort((a: any, b: any) => {
       const dateA = new Date(a);
       const dateB = new Date(b);
       return dateA.valueOf() - dateB.valueOf();
     });
 
-    console.log("new duration");
+    console.log("new duration ;)");
+    // new_duration = [
+    //   new_duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)",
+    //   new_duration[1] + " 24:00:00 GMT-0700 (Pacific Daylight Time)",
+    // ];
     console.log(new_duration);
 
     setFormValue({
@@ -89,17 +120,29 @@ function CalendarPg() {
   const newEventSubmit = (e: any) => {
     e.preventDefault();
 
-    console.log("formValue.duration[1] formValue.duration[1] ");
-    console.dir(formValue);
+    // console.log("formValue.duration[1] formValue.duration[1] ");
+    // console.dir(formValue);
 
-    let date = new Date(formValue.duration[1]).setHours(24, 0, 0, 0);
-    let fixed_date = new Date(date);
+    // let date = new Date(formValue.duration[1]).setHours(24, 0, 0, 0);
+    // let fixed_date = new Date(date);
 
-    console.log(
-      "corrected_end_date corrected_end_date corrected_end_date: " + fixed_date
-    );
+    // console.log(
+    //   "corrected_end_date corrected_end_date corrected_end_date: " + fixed_date
+    // );
 
-    INITIAL_EVENTS.push({ ...formValue, end: fixed_date.toString() });
+    console.log("55555555555555555");
+    console.log(formValue.duration);
+
+    const newFormValue = {
+      ...formValue,
+      duration: [
+        formValue.duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)",
+        formValue.duration[1] + " 24:00:00 GMT-0700 (Pacific Daylight Time)",
+      ],
+    };
+
+    // INITIAL_EVENTS.push(formValue);
+    INITIAL_EVENTS.push(newFormValue);
     setFormValue(initialForm);
     closeModal();
   };
@@ -133,7 +176,9 @@ function CalendarPg() {
       0,
       0,
       0
-    ).toString();
+    )
+      .toISOString()
+      .replace(/T.*$/, "");
 
     setFormValue({
       ...formValue,
