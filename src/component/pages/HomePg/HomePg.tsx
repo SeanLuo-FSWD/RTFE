@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import Navbar from "../../Navbar/Navbar";
 import usePostForm from "../../../server_api/usePostForm";
 import { server_url } from "../../../env.config";
+import CalendarPg from "../Calendar/CalendarPg";
 function HomePg() {
   const [Files, setFiles] = useState(null) as any;
   const { currentUser, setCurrentUser } = useContext(globalContext);
@@ -52,6 +53,8 @@ function HomePg() {
         <title>Home Page</title>
       </Helmet>
       <h2>Home Page</h2>
+
+      <CalendarPg />
       <img
         src={`${server_url}${currentUser.profileImg}`}
         width="300"

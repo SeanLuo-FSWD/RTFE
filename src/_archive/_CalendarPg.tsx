@@ -37,100 +37,62 @@ function CalendarPg() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formModalIsOpen, setIsFormOpen] = useState(false);
   const [formValue, setFormValue] = useState(initialForm) as any;
-  const [forceUpdate, setForceUpdate] = useState(false);
+
+  let dates_record: any = formValue.duration;
 
   useEffect(() => {
     if (formModalIsOpen) {
-      let dates_arr: any[] = [];
-      formValue.duration.forEach((e: string) => {
-        dates_arr.push(
-          new Date(e + " 00:00:00 GMT-0700 (Pacific Daylight Time)")
-        );
-      });
-
-      dateHighlight(dates_arr);
+      dateHighlight([
+        new Date(
+          formValue.duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)"
+        ),
+        new Date(
+          formValue.duration[1] + " 00:00:00 GMT-0700 (Pacific Daylight Time)"
+        ),
+      ]);
     }
-  }, [formValue.duration, forceUpdate]);
+  }, [formValue]);
 
   const afterOpenFormModal = () => {
     console.log("000000000000000000000");
     console.log("000000000000000000000");
     console.log(formValue.duration[0]);
-    const d = new Date(
-      formValue.duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)"
-    );
 
-    let query_target = `${d.toLocaleString("default", {
-      month: "long",
-    })} ${d.getDate()}, ${d.getFullYear()}`;
-
-    let date_aria = document.querySelector(`[aria-label="${query_target}"]`);
-    console.log("444444444444444444");
-    if (date_aria) {
-      console.log("55555555555555555");
-      date_aria.parentElement?.click();
-    }
-
-    let old_elements = document.querySelectorAll(".react-calendar__tile");
-
-    old_elements.forEach((old_ele) => {
-      const abbr = old_ele.querySelector("abbr");
-
-      if (abbr) {
-        let aria_label = abbr.getAttribute("aria-label");
-
-        if (aria_label) {
-          let date = new Date(aria_label);
-
-          if (date <= new Date()) {
-            old_ele.addEventListener("click", function (e) {
-              console.log(e);
-              e.stopPropagation();
-            });
-          }
-        }
-      }
-    });
+    dateHighlight([
+      new Date(
+        formValue.duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)"
+      ),
+    ]);
   };
 
-  const dateHighlight = (dates: any[]) => {
+  const dateHighlight = (dates: Date[]) => {
     // let date = new Date(
     //   "Sep 19 2021 00:00:00 GMT-0700 (Pacific Daylight Time)"
     // );
 
-    let previous_actives = document.querySelectorAll(
+    let previous_active = document.querySelector(
       ".react-calendar__tile--active"
     );
 
-    previous_actives &&
-      previous_actives.forEach((each) => {
-        each.classList.remove("react-calendar__tile--active");
-      });
+    previous_active &&
+      previous_active.classList.remove("react-calendar__tile--active");
 
-    {
-      dates[0] && color(dates[0], "pick_start");
-    }
-    {
-      dates[1] && color(dates[1], "pick_end");
-    }
+    dates.forEach((d) => {
+      let query_target = `${d.toLocaleString("default", {
+        month: "long",
+      })} ${d.getDate()}, ${d.getFullYear()}`;
+      console.log("query_target xxxxxxxx");
+      console.log(query_target);
+
+      let date_aria = document.querySelector(`[aria-label="${query_target}"]`);
+      console.log("444444444444444444");
+      if (date_aria) {
+        console.log("55555555555555555");
+        date_aria.parentElement?.classList.add("react-calendar__tile--active");
+      }
+    });
 
     // return query_target;
-  };
-
-  const color = (date: Date, target_class: string) => {
-    console.log("target_class");
-    console.log(target_class);
-
-    let query_target1 = `${date.toLocaleString("default", {
-      month: "long",
-    })} ${date.getDate()}, ${date.getFullYear()}`;
-
-    let date_aria1 = document.querySelector(
-      `.${target_class} [aria-label="${query_target1}"]`
-    );
-    if (date_aria1) {
-      date_aria1.parentElement?.classList.add("react-calendar__tile--active");
-    }
   };
 
   const date_select = () => {
@@ -139,36 +101,25 @@ function CalendarPg() {
         return (
           <>
             <p>Pick start and end date</p>
+            <p>
+              Start date:{" "}
+              {formValue.duration[0] ? (
+                <span> {formValue.duration[0]}</span>
+              ) : (
+                <span> ?</span>
+              )}
+            </p>
 
-            <div style={{ display: "flex" }}>
-              <div>
-                <p>
-                  Start date:{" "}
-                  {formValue.duration[0] ? (
-                    <span> {formValue.duration[0]}</span>
-                  ) : (
-                    <span> ?</span>
-                  )}
-                </p>
-                <div className="pick_start">
-                  <Picker onChange={(date: any) => pickDates(date, true)} />
-                </div>
-              </div>
+            <p>
+              End date:{" "}
+              {formValue.duration[1] ? (
+                <span> {formValue.duration[1]}</span>
+              ) : (
+                <span> ?</span>
+              )}
+            </p>
 
-              <div>
-                <p>
-                  End date:{" "}
-                  {formValue.duration[1] ? (
-                    <span> {formValue.duration[1]}</span>
-                  ) : (
-                    <span> ?</span>
-                  )}
-                </p>
-                <div className="pick_end">
-                  <Picker onChange={(date: any) => pickDates(date, false)} />
-                </div>
-              </div>
-            </div>
+            <Picker onChange={(date: any) => pickDates(date)} />
           </>
         );
 
@@ -181,46 +132,22 @@ function CalendarPg() {
     }
   };
 
-  const pickDates = (date: any, start: boolean) => {
-    console.log("88888888888888888888");
-    console.log(formValue.duration);
-
-    let new_duration = [...formValue.duration];
+  const pickDates = (date: any) => {
     const date_str = date.toISOString().replace(/T.*$/, "");
-    if (start) {
-      new_duration[0] = date_str;
-    } else {
-      new_duration[1] = date_str;
-    }
 
-    console.log("999999999999999999999");
-    console.log(formValue.duration);
+    dates_record.push(date_str);
+    dates_record = dates_record.splice(-2);
 
-    if (new Date(new_duration[0]) > new Date(new_duration[1])) {
-      window.alert("Start date is later than end date!");
-      console.log("formvalue.duration__");
-      console.log(formValue.duration);
+    let new_duration = dates_record.sort((a: any, b: any) => {
+      const dateA = new Date(a);
+      const dateB = new Date(b);
+      return dateA.valueOf() - dateB.valueOf();
+    });
 
-      setForceUpdate(!forceUpdate);
-    } else {
-      console.log("?????????????????");
-      console.log("new_duration");
-      console.log(new_duration);
-
-      setFormValue({
-        ...formValue,
-        duration: new_duration,
-      });
-    }
-
-    //   dates_record.push(date_str);
-    // dates_record = dates_record.splice(-2);
-
-    // let new_duration = dates_record.sort((a: any, b: any) => {
-    //   const dateA = new Date(a);
-    //   const dateB = new Date(b);
-    //   return dateA.valueOf() - dateB.valueOf();
-    // });
+    setFormValue({
+      ...formValue,
+      duration: new_duration,
+    });
   };
 
   const newEventSubmit = (e: any) => {
@@ -260,27 +187,22 @@ function CalendarPg() {
 
   const onSelect = (date: any) => {
     let clickedDay = new Date(date);
+    let formatDay = new Date(
+      clickedDay.getFullYear(),
+      clickedDay.getMonth(),
+      clickedDay.getDate(),
+      0,
+      0,
+      0
+    )
+      .toISOString()
+      .replace(/T.*$/, "");
 
-    if (clickedDay > new Date()) {
-      let formatDay = new Date(
-        clickedDay.getFullYear(),
-        clickedDay.getMonth(),
-        clickedDay.getDate(),
-        0,
-        0,
-        0
-      )
-        .toISOString()
-        .replace(/T.*$/, "");
-
-      console.log("nopenopenopenopenopenope");
-
-      setFormValue({
-        ...formValue,
-        duration: [formatDay],
-      });
-      setIsFormOpen(true);
-    }
+    setFormValue({
+      ...formValue,
+      duration: [formatDay],
+    });
+    setIsFormOpen(true);
   };
 
   const dateCellRender = (date: any) => {
@@ -319,6 +241,7 @@ function CalendarPg() {
 
   return (
     <div id="calendarPg">
+      {/* <h5>caulisse calendar</h5> */}
       <Calendar
         onSelect={onSelect}
         dateCellRender={(date) => dateCellRender(date)}
@@ -334,8 +257,7 @@ function CalendarPg() {
           <input />
           <p>Title: {event_data.title}</p>
           <p>Description: {event_data.description}</p>
-
-          {event_data.duration && (
+          {event_data.duration[0] && (
             <div>
               {" "}
               <p>start: {event_data.duration[0]}</p>
@@ -351,9 +273,9 @@ function CalendarPg() {
         style={customStyles}
         onAfterOpen={afterOpenFormModal}
       >
+        <h5>caulisse</h5>
         <button onClick={closeModal}>close</button>
         <form onSubmit={newEventSubmit}>
-          <label>Title</label>
           <input
             type="text"
             name="title"
@@ -362,7 +284,6 @@ function CalendarPg() {
               setFormValue({ ...formValue, title: e.target.value })
             }
           />
-          <label>Description</label>
           <input
             type="text"
             name="description"
