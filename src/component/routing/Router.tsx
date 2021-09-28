@@ -19,6 +19,8 @@ function Router() {
       if (res) {
         user = res.username;
         setCurrentUser(res);
+      } else {
+        console.log("Router: user not authenticated");
       }
     });
   }, []);
@@ -34,6 +36,7 @@ function Router() {
             path="/calendar"
             Component={CalendarPg}
             isAuth={currentUser}
+            key="uniquevalue"
           />
           <ProtectedRoute path="/" Component={HomePg} isAuth={currentUser} />
         </Switch>

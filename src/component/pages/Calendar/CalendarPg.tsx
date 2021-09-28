@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Calendar } from "antd";
 import "./CalendarPg.scss";
 import Picker from "react-calendar";
@@ -14,6 +14,10 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+  },
+
+  greyout: {
+    backgroundColor: "lightgrey",
   },
 };
 
@@ -33,11 +37,30 @@ const initialForm = {
   duration: [],
 };
 
+let date_click = false;
+let add_click_once = false;
+
+function usePrevious(value: any) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
+
 function CalendarPg() {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [formModalIsOpen, setIsFormOpen] = useState(false);
   const [formValue, setFormValue] = useState(initialForm) as any;
   const [forceUpdate, setForceUpdate] = useState(false);
+  // const prevFormValue = usePrevious(formValue);
+
+  useEffect(() => {
+    console.log("fires first time, but not after");
+
+    colorMainCal();
+    date_click = false;
+  });
 
   useEffect(() => {
     if (formModalIsOpen) {
@@ -52,9 +75,66 @@ function CalendarPg() {
     }
   }, [formValue.duration, forceUpdate]);
 
+  useEffect(() => {
+    console.log("eeeeeeeeeeeeeeeeeeeeee");
+    console.log("eeeeeeeeeeeeeeeeeeeeee");
+    console.log(add_click_once);
+
+    let main_cal_selectors = document.querySelectorAll(".ant-select-selector");
+
+    main_cal_selectors.forEach((each) => {
+      if (!add_click_once) {
+        each.addEventListener("click", () => {
+          console.log("addded");
+
+          let main_cal_dps = document.querySelectorAll(".ant-select-dropdown");
+          main_cal_dps.forEach((each) => {
+            each.addEventListener("click", () => {
+              console.log("forceeeeeeed update");
+              setForceUpdate(!forceUpdate);
+            });
+          });
+        });
+      }
+    });
+    add_click_once = true;
+  }, []);
+
+  const colorMainCal = () => {
+    // if (prevFormValue !== formValue) {
+    let clickable = document.querySelector(".ant-picker-content tbody");
+
+    let date_cells = clickable?.querySelectorAll(
+      ".ant-picker-cell .ant-picker-calendar-date"
+    ) as any;
+
+    date_cells?.forEach((each: any) => {
+      // console.log("vvvvvvvvvvvvvvvvvvv");
+      // console.log(new Date(each.parentElement.getAttribute("title")));
+      // console.log(getTodayPDT(24));
+      // console.log("vvvvvvvvvvvvvvvvvvv");
+
+      if (
+        new Date(each.parentElement.getAttribute("title")) <= getTodayPDT(-17)
+      ) {
+        each.style.backgroundColor = "lightgrey";
+      } else {
+        each.style.backgroundColor = "white";
+      }
+    });
+  };
+
+  function getTodayPDT(hour_offset?: number) {
+    let today = new Date(
+      new Date().toLocaleDateString("en-US", { timeZone: "PST" })
+    );
+    if (hour_offset) {
+      today.setHours(today.getHours() + hour_offset);
+    }
+    return today;
+  }
+
   const afterOpenFormModal = () => {
-    console.log("000000000000000000000");
-    console.log("000000000000000000000");
     console.log(formValue.duration[0]);
     const d = new Date(
       formValue.duration[0] + " 00:00:00 GMT-0700 (Pacific Daylight Time)"
@@ -65,15 +145,13 @@ function CalendarPg() {
     })} ${d.getDate()}, ${d.getFullYear()}`;
 
     let date_aria = document.querySelector(`[aria-label="${query_target}"]`);
-    console.log("444444444444444444");
     if (date_aria) {
-      console.log("55555555555555555");
       date_aria.parentElement?.click();
     }
 
     let old_elements = document.querySelectorAll(".react-calendar__tile");
 
-    old_elements.forEach((old_ele) => {
+    old_elements.forEach((old_ele: any) => {
       const abbr = old_ele.querySelector("abbr");
 
       if (abbr) {
@@ -82,11 +160,14 @@ function CalendarPg() {
         if (aria_label) {
           let date = new Date(aria_label);
 
-          if (date <= new Date()) {
-            old_ele.addEventListener("click", function (e) {
-              console.log(e);
+          if (date < getTodayPDT()) {
+            old_ele.addEventListener("click", function (e: any) {
+              console.log("no click possible");
+
               e.stopPropagation();
             });
+
+            old_ele.style.backgroundColor = "lightgrey";
           }
         }
       }
@@ -151,7 +232,10 @@ function CalendarPg() {
                   )}
                 </p>
                 <div className="pick_start">
-                  <Picker onChange={(date: any) => pickDates(date, true)} />
+                  <Picker
+                    defaultActiveStartDate={new Date(formValue.duration[0])}
+                    onChange={(date: any) => pickDates(date, true)}
+                  />
                 </div>
               </div>
 
@@ -165,7 +249,10 @@ function CalendarPg() {
                   )}
                 </p>
                 <div className="pick_end">
-                  <Picker onChange={(date: any) => pickDates(date, false)} />
+                  <Picker
+                    defaultActiveStartDate={new Date(formValue.duration[0])}
+                    onChange={(date: any) => pickDates(date, false)}
+                  />
                 </div>
               </div>
             </div>
@@ -238,6 +325,8 @@ function CalendarPg() {
     closeModal();
   };
   function closeModal() {
+    console.log("closemodallll calleeddd");
+
     if (modalIsOpen) {
       setIsOpen(false);
     }
@@ -259,27 +348,33 @@ function CalendarPg() {
   }
 
   const onSelect = (date: any) => {
-    let clickedDay = new Date(date);
+    console.log("============");
+    // console.log(date_click);
 
-    if (clickedDay > new Date()) {
-      let formatDay = new Date(
-        clickedDay.getFullYear(),
-        clickedDay.getMonth(),
-        clickedDay.getDate(),
-        0,
-        0,
-        0
-      )
-        .toISOString()
-        .replace(/T.*$/, "");
+    if (date_click) {
+      let clickedDay = new Date(date);
 
-      console.log("nopenopenopenopenopenope");
+      // if (clickedDay > new Date()) {
+      if (clickedDay > getTodayPDT()) {
+        let formatDay = new Date(
+          clickedDay.getFullYear(),
+          clickedDay.getMonth(),
+          clickedDay.getDate(),
+          0,
+          0,
+          0
+        )
+          .toISOString()
+          .replace(/T.*$/, "");
 
-      setFormValue({
-        ...formValue,
-        duration: [formatDay],
-      });
-      setIsFormOpen(true);
+        console.log("nopenopenopenopenopenope");
+
+        setFormValue({
+          ...formValue,
+          duration: [formatDay],
+        });
+        setIsFormOpen(true);
+      }
     }
   };
 
@@ -320,7 +415,7 @@ function CalendarPg() {
   return (
     <div id="calendarPg">
       <Calendar
-        onSelect={onSelect}
+        onSelect={(date) => onSelect(date)}
         dateCellRender={(date) => dateCellRender(date)}
       />
       <Modal

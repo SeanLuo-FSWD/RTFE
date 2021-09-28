@@ -8,11 +8,13 @@ const useGet = () => {
   const doGet = (path: string, cb?: Function) => {
     axios
       .get(`${server_api}${path}`, { withCredentials: true })
+      // .get(`${server_api}${path}`)
+
       .then((response) => {
         // set_postData(response.data);
+        console.log(path + " doGet : response.data");
+        console.log(response.data);
         if (cb) {
-          console.log("doGet : response.data");
-          console.log(response.data);
           cb(response.data);
         }
       })
