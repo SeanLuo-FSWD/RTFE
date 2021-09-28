@@ -349,7 +349,7 @@ function CalendarPg() {
 
   const onSelect = (date: any) => {
     console.log("============");
-    // console.log(date_click);
+    console.log(date_click);
 
     if (date_click) {
       let clickedDay = new Date(date);
