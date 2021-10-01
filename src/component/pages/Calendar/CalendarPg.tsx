@@ -53,7 +53,7 @@ function CalendarPg() {
   const [formModalIsOpen, setIsFormOpen] = useState(false);
   const [formValue, setFormValue] = useState(initialForm) as any;
   const [forceUpdate, setForceUpdate] = useState(false);
-  // const prevFormValue = usePrevious(formValue);
+  const prevFormValue = usePrevious(formValue);
 
   useEffect(() => {
     console.log("fires first time, but not after");
@@ -80,10 +80,21 @@ function CalendarPg() {
     console.log("eeeeeeeeeeeeeeeeeeeeee");
     console.log(add_click_once);
 
+    let clickable = document.querySelector(".ant-picker-content tbody");
+
+    clickable!.addEventListener("click", () => {
+      console.log("should come before equal");
+
+      date_click = true;
+    });
+
     let main_cal_selectors = document.querySelectorAll(".ant-select-selector");
 
     main_cal_selectors.forEach((each) => {
-      if (!add_click_once) {
+      // if (!add_click_once) {
+      console.log("closure_add_click_once() " + closure_add_click_once());
+
+      if (() => closure_add_click_once() === false) {
         each.addEventListener("click", () => {
           console.log("addded");
 
@@ -95,10 +106,14 @@ function CalendarPg() {
             });
           });
         });
+        add_click_once = true;
       }
     });
-    add_click_once = true;
   }, []);
+
+  const closure_add_click_once = () => {
+    return add_click_once;
+  };
 
   const colorMainCal = () => {
     // if (prevFormValue !== formValue) {
@@ -111,12 +126,14 @@ function CalendarPg() {
     date_cells?.forEach((each: any) => {
       // console.log("vvvvvvvvvvvvvvvvvvv");
       // console.log(new Date(each.parentElement.getAttribute("title")));
-      // console.log(getTodayPDT(24));
+      // console.log(getTodayPDT(-17));
       // console.log("vvvvvvvvvvvvvvvvvvv");
 
       if (
         new Date(each.parentElement.getAttribute("title")) <= getTodayPDT(-17)
       ) {
+        console.log("lightgreyyyyyyy");
+
         each.style.backgroundColor = "lightgrey";
       } else {
         each.style.backgroundColor = "white";
@@ -379,6 +396,8 @@ function CalendarPg() {
   };
 
   const dateCellRender = (date: any) => {
+    console.log("how many timessssss?");
+
     const calDate = date._d;
     let ele_arr = null;
 
@@ -412,11 +431,24 @@ function CalendarPg() {
     return ele_arr;
   };
 
+  const monthCellRender = (month: any) => {
+    console.log('777777777777777777777');
+    console.log('monthCellRender' + month);
+    return month;
+  }
+
+  const onPanelChange = () => {
+    console.log('panel changggggggeedddddd');
+    
+  }
+
   return (
     <div id="calendarPg">
       <Calendar
         onSelect={(date) => onSelect(date)}
         dateCellRender={(date) => dateCellRender(date)}
+        monthCellRender= {(month) => monthCellRender(month)}
+        onPanelChange={() => {onPanelChange()}}
       />
       <Modal
         isOpen={modalIsOpen}
