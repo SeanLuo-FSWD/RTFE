@@ -8,22 +8,12 @@ export const INITIAL_EVENTS = [
     type: "once",
     description: "first event description here",
     duration: [
-      "Sep 19 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
-      "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
+      new Date().toISOString().replace(/T.*$/, "") +
+        " 00:00:00 GMT-0700 (Pacific Daylight Time)",
+      new Date().toISOString().replace(/T.*$/, "") +
+        " 00:00:00 GMT-0700 (Pacific Daylight Time)",
     ],
     // start: "Sep 19 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
-    // end: "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
-  },
-  {
-    id: createEventId(),
-    title: "Timed event",
-    type: "once",
-    description: "event description here",
-    duration: [
-      "Sep 21 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
-      "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
-    ],
-    // start: "Sep 21 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
     // end: "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
   },
   {

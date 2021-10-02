@@ -49,7 +49,7 @@ function EventForm({ payloadProp, closeModalProp }: any) {
       payloadProp={payloadProp}
       formValue={formValue}
       onSubmit={onSubmitOnce}
-      onChange={onFormChange}
+      onFormChange={(values: any) => onFormChange(values)}
     />
   ) : (
     <Reoccuring />

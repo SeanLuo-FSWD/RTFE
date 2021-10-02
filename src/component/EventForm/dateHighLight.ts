@@ -1,18 +1,32 @@
-const color = (dateObj: Date, target_class: string) => {
-  let date = new Date(dateObj);
-  let query_target1 = `${date.toLocaleString("default", {
-    month: "long",
-  })} ${date.getDate()}, ${date.getFullYear()}`;
+import DateClass from "../../helpers/DateClass";
 
+const dateObj = new DateClass();
+
+const color = (dateStr: string, target_class: string) => {
+  console.log("dateStr");
+
+  console.log(dateStr);
+
+  //   let date = dateObj.getISODateStr(dateStr);
+  let d = new Date(dateStr);
+
+  //   let query_target = `${date.month} ${date.day}, ${date.year}`;
+
+  let query_target = `${d.toLocaleString("default", {
+    month: "long",
+  })} ${d.getUTCDate()}, ${d.getFullYear()}`;
+
+  console.log("sssssssssssssssssssssssss");
+  console.log(query_target);
   let date_aria1 = document.querySelector(
-    `.${target_class} [aria-label="${query_target1}"]`
+    `.${target_class} [aria-label="${query_target}"]`
   );
   if (date_aria1) {
     date_aria1.parentElement?.classList.add("react-calendar__tile--active");
   }
 };
 
-const dateHighLight = (dates: any[]) => {
+const dateHighLight = (dates: string[]) => {
   let previous_actives = document.querySelectorAll(
     ".react-calendar__tile--active"
   );

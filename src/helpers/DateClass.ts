@@ -1,22 +1,60 @@
 class DateClass {
-  // getTodayNoTime(stringType: boolean) {
-  //   // let todayStr = new Date().toISOString().replace(/T.*$/, "");
-  //   let today = new Date();
-  //   let formatDay: Date | string =
-  //     new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0)
-  //       .toISOString()
-  //       .replace(/T.*$/, "") + " 00:00:00 GMT-0700 (Pacific Daylight Time)";
+  getISODateStr(strISO: string) {
+    let pureDate = strISO.replace(/T.*$/, "");
+    let split_arr = pureDate.split("-");
+    console.log("ggggggggggggggggggggggg");
+    console.log(split_arr);
 
-  //   todayStr.setHours(todayStr.getHours() - 7);
+    let month = new Date().toLocaleString("default", { month: "long" });
+    switch (split_arr[1]) {
+      case "1":
+        month = "January";
+        break;
+      case "2":
+        month = "February";
+        break;
+      case "3":
+        month = "March";
+        break;
+      case "4":
+        month = "April";
+        break;
+      case "5":
+        month = "May";
+        break;
+      case "6":
+        month = "June";
+        break;
+      case "7":
+        month = "July";
+        break;
+      case "8":
+        month = "August";
+        break;
+      case "9":
+        month = "September";
+        break;
+      case "10":
+        month = "October";
+        break;
+      case "11":
+        month = "November";
+        break;
+      case "12":
+        month = "December";
+        break;
+      default:
+        break;
+    }
 
-  //   let today: Date | String = new Date(new Date().toDateString());
+    let dayStrOb = {
+      year: split_arr[0],
+      month,
+      day: split_arr[2],
+    };
 
-  //   if (stringType) {
-  //     today = today.toDateString();
-  //   }
-
-  //   return today;
-  // }
+    return dayStrOb;
+  }
 
   formatStringPDT(
     day: Date,

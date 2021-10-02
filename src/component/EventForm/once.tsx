@@ -2,22 +2,24 @@ import React, { useEffect } from "react";
 import FormManager from "../helpers/FormManager";
 import Picker from "react-calendar";
 import dateHighLight from "./dateHighLight";
+import DateClass from "../../helpers/DateClass";
 
 const initialValues = { title: "", description: "", duration: [] };
 
+const dateObj = new DateClass();
+
 const pickDates = (date: Date, duration: any, start: boolean) => {
-  console.log("pickDates");
-  console.log("xxxxxxxxxxxxxxxxxxxxxx");
   let new_duration = duration;
-  const date_str = date.toDateString();
+
+  const date_str = dateObj.formatStringPDT(date, true);
 
   start ? (new_duration[0] = date_str) : (new_duration[1] = date_str);
 
   if (new Date(new_duration[0]) > new Date(new_duration[1])) {
     window.alert("Start date is later than end date!");
   } else {
-    console.log("new_duration");
-    console.log(new_duration);
+    console.log("date_str date_str date_str");
+    console.log(date_str);
 
     return new_duration;
   }
@@ -25,11 +27,9 @@ const pickDates = (date: Date, duration: any, start: boolean) => {
 };
 
 function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
-  console.log("999999999999999999999");
-  console.log(payloadProp.event_obj.date);
-  console.log(formValue.duration);
-
   useEffect(() => {
+    console.log("3333333333333333");
+    console.log(formValue.duration);
     dateHighLight(formValue.duration);
   });
 
@@ -69,23 +69,28 @@ function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
               <span> ?</span>
             )}
           </p>
-          <Picker
-            activeStartDate={payloadProp.event_obj.date}
-            //   onChange={(date: any) => pickDates(date, true)}
-            onChange={
-              (date: any) => {
-                let new_duration = pickDates(
-                  date,
-                  [...formValue.duration],
-                  true
-                );
-
-                new_duration &&
-                  onFormChange({ ...formValue, duration: new_duration });
+          <div className="pick_start">
+            <Picker
+              // activeStartDate={payloadProp.event_obj.date}
+              defaultActiveStartDate={
+                formValue.duration[0] && new Date(formValue.duration[0])
               }
-              // "duration", new_duration
-            }
-          />
+              //   onChange={(date: any) => pickDates(date, true)}
+              onChange={
+                (date: any) => {
+                  let new_duration = pickDates(
+                    date,
+                    [...formValue.duration],
+                    true
+                  );
+
+                  new_duration &&
+                    onFormChange({ ...formValue, duration: new_duration });
+                }
+                // "duration", new_duration
+              }
+            />
+          </div>
         </div>
 
         <div>
@@ -98,23 +103,26 @@ function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
             )}
           </p>
 
-          <Picker
-            defaultActiveStartDate={payloadProp.event_obj.date}
-            //   onChange={(date: any) => pickDates(date, true)}
-            onChange={
-              (date: any) => {
-                let new_duration = pickDates(
-                  date,
-                  [...formValue.duration],
-                  false
-                );
+          <div className="pick_end">
+            <Picker
+              // defaultActiveStartDate={payloadProp.event_obj.date}
+              // activeStartDate={formValue.duration[1]}
+              //   onChange={(date: any) => pickDates(date, true)}
+              onChange={
+                (date: any) => {
+                  let new_duration = pickDates(
+                    date,
+                    [...formValue.duration],
+                    false
+                  );
 
-                new_duration &&
-                  onFormChange({ ...formValue, duration: new_duration });
+                  new_duration &&
+                    onFormChange({ ...formValue, duration: new_duration });
+                }
+                // "duration", new_duration
               }
-              // "duration", new_duration
-            }
-          />
+            />
+          </div>
         </div>
       </div>
       <button type="submit">Submit</button>
