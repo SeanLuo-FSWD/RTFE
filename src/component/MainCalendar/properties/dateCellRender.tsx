@@ -5,7 +5,7 @@ import DateClass from "../../../helpers/DateClass";
 const dateCellRender = (date: any, setModal: Function) => {
   let dateObj = new DateClass();
 
-  const calDate = dateObj.formatStringPDT(date._d, false);
+  const calDate = dateObj.formatStringPDT(date._d);
 
   let ele_arr = null;
 
@@ -19,7 +19,6 @@ const dateCellRender = (date: any, setModal: Function) => {
     if (ele.type === "once") {
       startDate = new Date(ele.duration![0]);
       endDate = new Date(ele.duration![1]);
-      console.log("calDate: " + calDate);
 
       if (calDate >= startDate && calDate <= endDate) {
         return item;

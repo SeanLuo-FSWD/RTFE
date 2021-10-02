@@ -7,29 +7,50 @@ import Reoccuring from "./reoccuring";
 
 function EventForm({ payloadProp, closeModalProp }: any) {
   let dateObj = new DateClass();
-  const [_eventType, set_eventType] = useState("once");
+  const initialForm = {
+    id: null,
+    title: null,
+    description: null,
+    type: "once",
+    duration: [],
+  };
+  const [formValue, setFormValue] = useState(initialForm) as any;
 
-  const onSubmitOnce = (values: any) => {
-    let dates_duration = values.duration.map((val: string) => {
-      return dateObj.formatStringPDT(new Date(val));
+  useEffect(() => {
+    setFormValue({
+      ...formValue,
+      duration: [dateObj.formatStringPDT(payloadProp.event_obj.date, true)],
+    });
+  }, []);
+  const onFormChange = (values: any) => {
+    setFormValue(values);
+  };
+  const onSubmitOnce = () => {
+    let dates_duration = formValue.duration.map((val: string) => {
+      return dateObj.formatStringPDT(new Date(val), true);
     });
 
-    values = {
-      ...values,
+    setFormValue({
+      ...formValue,
       id: createEventId(),
       duration: dates_duration,
       type: "once",
-    };
+    });
 
     console.log("form values");
-    console.log(values);
+    console.log(formValue);
 
-    INITIAL_EVENTS.push(values);
+    INITIAL_EVENTS.push(formValue);
     closeModalProp();
   };
 
-  return _eventType === "once" ? (
-    <Once payloadProp={payloadProp} onSubmit={onSubmitOnce} />
+  return formValue.type === "once" ? (
+    <Once
+      payloadProp={payloadProp}
+      formValue={formValue}
+      onSubmit={onSubmitOnce}
+      onChange={onFormChange}
+    />
   ) : (
     <Reoccuring />
   );
