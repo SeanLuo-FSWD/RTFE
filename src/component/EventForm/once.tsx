@@ -105,9 +105,9 @@ function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
 
           <div className="pick_end">
             <Picker
-              // defaultActiveStartDate={payloadProp.event_obj.date}
-              // activeStartDate={formValue.duration[1]}
-              //   onChange={(date: any) => pickDates(date, true)}
+              defaultActiveStartDate={
+                formValue.duration[0] && new Date(formValue.duration[0])
+              }
               onChange={
                 (date: any) => {
                   let new_duration = pickDates(
