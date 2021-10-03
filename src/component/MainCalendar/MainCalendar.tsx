@@ -47,7 +47,7 @@ function MainCalendar() {
     }
   };
 
-  const setDetailModal = (e: any, event_id: string | number) => {
+  const setDetailModal = (e: any, event_id: any) => {
     e.stopPropagation();
     for (let i = 0; i < INITIAL_EVENTS.length; i++) {
       if (event_id === INITIAL_EVENTS[i].id) {

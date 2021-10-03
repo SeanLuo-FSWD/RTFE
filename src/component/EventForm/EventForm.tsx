@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { INITIAL_EVENTS, createEventId } from "../../fakeDb/event-utils";
 import CustomUtil from "../../helpers/CustomUtil";
-import FormManager from "../helpers/FormManager";
-import Once from "./once";
-import Reoccuring from "./reoccuring";
 import Picker from "react-calendar";
 import pickDates from "./pickDates";
 import dateHighLight from "./dateHighLight";
 
 const monthArr: any[] = [];
+
+monthArr.push("select");
 for (let i = 1; i <= 31; i++) {
   monthArr.push(i.toString());
 }
@@ -22,10 +21,8 @@ function EventForm({ payloadProp, closeModalProp }: any) {
     type: "once",
     duration: [],
     days: [],
-  };
+  } as any;
   const [formValue, setFormValue] = useState(initialForm) as any;
-
-  console.log("payloadProp.event_obj.date " + payloadProp.event_obj.date);
 
   useEffect(() => {
     dateHighLight(formValue.duration);
@@ -180,15 +177,14 @@ function EventForm({ payloadProp, closeModalProp }: any) {
           <select
             name="days"
             onChange={(e) => {
-              console.log("wtffff-----");
+              if (
+                e.target.value !== "select" &&
+                !formValue.days.includes(parseInt(e.target.value))
+              ) {
+                const new_days = [...formValue.days, parseInt(e.target.value)];
 
-              console.log(formValue.days);
-
-              const new_days = [...formValue.days, parseInt(e.target.value)];
-              console.log("zzzzzzzzzzzzzzzzzzzzzzz");
-              console.log(new_days);
-
-              setFormValue({ ...formValue, days: new_days });
+                setFormValue({ ...formValue, days: new_days });
+              }
             }}
           >
             {monthArr.map((day) => {
@@ -197,7 +193,66 @@ function EventForm({ payloadProp, closeModalProp }: any) {
           </select>
         </div>
       ) : (
-        <p>month or weekly</p>
+        <div>
+          <div style={{ display: "flex" }}>
+            days:
+            {formValue.days.map((d: any) => {
+              let day_str;
+
+              switch (d) {
+                case 0:
+                  day_str = "Sun";
+                  break;
+                case 1:
+                  day_str = "Mon";
+                  break;
+                case 2:
+                  day_str = "Tue";
+                  break;
+                case 3:
+                  day_str = "Wed";
+                  break;
+                case 4:
+                  day_str = "Thu";
+                  break;
+                case 5:
+                  day_str = "Fri";
+                  break;
+                case 6:
+                  day_str = "Sat";
+                  break;
+                default:
+                  break;
+              }
+
+              return <p>{day_str},</p>;
+            })}
+          </div>
+          <select
+            name="weekdays"
+            onChange={(e) => {
+              if (
+                e.target.value !== "select" &&
+                !formValue.days.includes(parseInt(e.target.value))
+              ) {
+                const new_days = [...formValue.days, parseInt(e.target.value)];
+                setFormValue({
+                  ...formValue,
+                  days: new_days,
+                });
+              }
+            }}
+          >
+            <option value="select">select</option>
+            <option value={0}>Sunday</option>
+            <option value={1}>Monday</option>
+            <option value={2}>Tuesday</option>
+            <option value={3}>Wednesday</option>
+            <option value={4}>Thursday</option>
+            <option value={5}>Friday</option>
+            <option value={6}>Saturday</option>
+          </select>
+        </div>
       )}
 
       <button type="submit">Submit</button>
