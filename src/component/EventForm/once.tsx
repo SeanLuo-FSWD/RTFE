@@ -2,29 +2,7 @@ import React, { useEffect } from "react";
 import FormManager from "../helpers/FormManager";
 import Picker from "react-calendar";
 import dateHighLight from "./dateHighLight";
-import DateClass from "../../helpers/DateClass";
-
-const initialValues = { title: "", description: "", duration: [] };
-
-const dateObj = new DateClass();
-
-const pickDates = (date: Date, duration: any, start: boolean) => {
-  let new_duration = duration;
-
-  const date_str = dateObj.formatStringPDT(date, true);
-
-  start ? (new_duration[0] = date_str) : (new_duration[1] = date_str);
-
-  if (new Date(new_duration[0]) > new Date(new_duration[1])) {
-    window.alert("Start date is later than end date!");
-  } else {
-    console.log("date_str date_str date_str");
-    console.log(date_str);
-
-    return new_duration;
-  }
-  return;
-};
+import CustomUtil from "../../helpers/CustomUtil";
 
 function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
   useEffect(() => {

@@ -1,6 +1,6 @@
-import DateClass from "../../../helpers/DateClass";
+import CustomUtil from "../../../helpers/CustomUtil";
 
-const dateObj = new DateClass();
+const dateObj = new CustomUtil();
 
 const colorMainCal = () => {
   let clickable = document.querySelector(".ant-picker-content tbody");
@@ -10,15 +10,13 @@ const colorMainCal = () => {
   ) as any;
 
   date_cells?.forEach((each: any) => {
-    const cell_date = dateObj.formatStringPDT(
+    const cell_date = CustomUtil.formatStringPDT(
       new Date(each.parentElement.getAttribute("title"))
     );
 
-    const today = dateObj.formatStringPDT(new Date(), undefined, { date: -1 });
-
-    console.log("666666666666666666");
-    console.log(cell_date);
-    console.log(today);
+    const today = CustomUtil.formatStringPDT(new Date(), undefined, {
+      date: -1,
+    });
 
     if (cell_date.getTime() < today.getTime()) {
       each.style.backgroundColor = "lightgrey";

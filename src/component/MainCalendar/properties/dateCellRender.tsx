@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { INITIAL_EVENTS } from "../../../fakeDb/event-utils";
-import DateClass from "../../../helpers/DateClass";
+import CustomUtil from "../../../helpers/CustomUtil";
+import _ from "lodash";
 
 const dateCellRender = (date: any, setModal: Function) => {
-  let dateObj = new DateClass();
-
-  const calDate = dateObj.formatStringPDT(date._d);
+  const calDate = CustomUtil.formatStringPDT(date._d);
 
   let ele_arr = null;
 
@@ -23,12 +22,41 @@ const dateCellRender = (date: any, setModal: Function) => {
       if (calDate >= startDate && calDate <= endDate) {
         return item;
       }
-    } else {
-      const day =
-        ele.type === "monthly"
-          ? new Date(date).getDate()
-          : new Date(date).getDay();
+    } else if (ele.type === "monthly") {
+      const day = new Date(date).getDate();
+      // console.log("000000000000000000000");
+      // console.log(ele);
 
+      const has_month = _.filter(ele.days, (d: any) => {
+        return d === "month end";
+      });
+
+      if (has_month.length != 0) {
+        // console.log("aaaaaaaaaaaaaaaaaaaaaaaa");
+        // console.log(has_month);
+        const month = new Date(date).getMonth();
+        const lastDay = CustomUtil.getMonthLastDay(month);
+        // console.log("1111111111111111111111");
+
+        if (day == lastDay) {
+          // console.log("3333333333333333");
+          // console.log(day);
+          // console.log(lastDay);
+          return item;
+        }
+      } else {
+        for (let i = 0; i < ele.days!.length; i++) {
+          // console.log("2222222222222222");
+          // console.log(day);
+          // console.log(ele.days![i]);
+
+          if (day == ele.days![i]) {
+            return item;
+          }
+        }
+      }
+    } else {
+      const day = new Date(date).getDay();
       for (let i = 0; i < ele.days!.length; i++) {
         if (day === ele.days![i]) {
           return item;

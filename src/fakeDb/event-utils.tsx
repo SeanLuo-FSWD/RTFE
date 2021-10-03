@@ -13,6 +13,7 @@ export const INITIAL_EVENTS = [
       new Date().toISOString().replace(/T.*$/, "") +
         " 00:00:00 GMT-0700 (Pacific Daylight Time)",
     ],
+    days: [],
     // start: "Sep 19 2021 00:00:00 GMT-0700 (Pacific Daylight Time)",
     // end: "Sep 21 2021 24:00:00 GMT-0700 (Pacific Daylight Time)",
   },
@@ -21,7 +22,14 @@ export const INITIAL_EVENTS = [
     title: "Monthly reoccuring",
     type: "monthly",
     description: "Monthly event description here",
-    days: [20, 30],
+    days: [20, "month end"],
+  },
+  {
+    id: createEventId(),
+    title: "6 reoccuring",
+    type: "monthly",
+    description: "Monthly event description here",
+    days: [6],
   },
   {
     id: createEventId(),

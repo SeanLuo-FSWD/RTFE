@@ -1,6 +1,6 @@
-import DateClass from "../../helpers/DateClass";
+import CustomUtil from "../../helpers/CustomUtil";
 
-const dateObj = new DateClass();
+const dateObj = new CustomUtil();
 
 const color = (dateStr: string, target_class: string) => {
   console.log("dateStr");
