@@ -17,7 +17,7 @@ const customStyles = {
   },
 };
 
-function CalModals({
+function TaskModal({
   isOpenProp,
   closeModalProp,
   onAfterOpenProp,
@@ -50,6 +50,7 @@ function CalModals({
       break;
 
     default:
+      // add new modal.
       modal = (
         <Modal
           isOpen={isOpenProp && true}
@@ -70,4 +71,4 @@ function CalModals({
   // return <p>asdfds</p>;
 }
 
-export default CalModals;
+export default TaskModal;

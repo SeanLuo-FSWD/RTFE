@@ -27,20 +27,20 @@ function Router() {
 
   return (
     <BrowserRouter>
-      <ErrorHandler>
-        <Switch>
-          <Route path="/error" component={ErrorPg} />
-          <Route path="/login" component={LoginPg} />
+      {/* <ErrorHandler> */}
+      <Switch>
+        <Route path="/error" component={ErrorPg} />
+        <Route path="/login" component={LoginPg} />
 
-          <ProtectedRoute
-            path="/calendar"
-            Component={CalendarPg}
-            isAuth={currentUser}
-            key="uniquevalue"
-          />
-          <ProtectedRoute path="/" Component={HomePg} isAuth={currentUser} />
-        </Switch>
-      </ErrorHandler>
+        <ProtectedRoute
+          path="/calendar"
+          Component={CalendarPg}
+          isAuth={currentUser}
+          key="uniquevalue"
+        />
+        <ProtectedRoute path="/" Component={HomePg} isAuth={currentUser} />
+      </Switch>
+      {/* </ErrorHandler> */}
     </BrowserRouter>
   );
 }

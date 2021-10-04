@@ -5,7 +5,7 @@ const dateObj = new CustomUtil();
 const pickDates = (date: Date, duration: any, start: boolean) => {
   let new_duration = duration;
 
-  const date_str = CustomUtil.formatStringPDT(date, true);
+  const date_str = CustomUtil.formatTimelessDate(date, true);
 
   start ? (new_duration[0] = date_str) : (new_duration[1] = date_str);
 

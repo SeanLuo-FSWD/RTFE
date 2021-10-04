@@ -6,8 +6,6 @@ import CustomUtil from "../../helpers/CustomUtil";
 
 function Once({ payloadProp, onSubmit, formValue, onFormChange }: any) {
   useEffect(() => {
-    console.log("3333333333333333");
-    console.log(formValue.duration);
     dateHighLight(formValue.duration);
   });
 

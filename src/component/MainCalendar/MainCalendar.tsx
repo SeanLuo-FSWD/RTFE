@@ -3,7 +3,7 @@ import { Calendar } from "antd";
 import "./MainCalendar.scss";
 import { INITIAL_EVENTS } from "../../fakeDb/event-utils";
 import dateCellRender from "./properties/dateCellRender";
-import CalModals from "./calModals";
+import TaskModal from "../TaskDetail/TaskDetail";
 import colorMainCal from "./functions/colorMainCal";
 
 const _Modal_initial = {
@@ -64,8 +64,6 @@ function MainCalendar() {
     set_Modal(_Modal_initial);
   };
 
-  const onAfterOpen = () => {};
-
   return (
     <div id="calendarMain">
       <Calendar
@@ -74,10 +72,9 @@ function MainCalendar() {
         onPanelChange={() => set_ForceUpdate(true)}
       />
       {_Modal.type && (
-        <CalModals
+        <TaskModal
           isOpenProp={_Modal.type}
           closeModalProp={closeModal}
-          onAfterOpenProp={onAfterOpen}
           payloadProp={{ event_obj: _Modal.payload }}
         />
       )}

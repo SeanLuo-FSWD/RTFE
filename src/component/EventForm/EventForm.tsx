@@ -30,7 +30,9 @@ function EventForm({ payloadProp, closeModalProp }: any) {
   useEffect(() => {
     setFormValue({
       ...formValue,
-      duration: [CustomUtil.formatStringPDT(payloadProp.event_obj.date, true)],
+      duration: [
+        CustomUtil.formatTimelessDate(payloadProp.event_obj.date, true),
+      ],
     });
   }, []);
   const onFormChange = (values: any) => {
@@ -39,7 +41,7 @@ function EventForm({ payloadProp, closeModalProp }: any) {
   const onFormSubmit = () => {
     if (formValue.type === "once") {
       let dates_duration = formValue.duration.map((val: string) => {
-        return CustomUtil.formatStringPDT(new Date(val), true);
+        return CustomUtil.formatTimelessDate(new Date(val), true);
       });
 
       setFormValue({

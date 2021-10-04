@@ -10,15 +10,21 @@ const colorMainCal = () => {
   ) as any;
 
   date_cells?.forEach((each: any) => {
-    const cell_date = CustomUtil.formatStringPDT(
+    const cell_date = CustomUtil.formatTimelessDate(
       new Date(each.parentElement.getAttribute("title"))
     );
 
-    const today = CustomUtil.formatStringPDT(new Date(), undefined, {
-      date: -1,
-    });
+    const today = CustomUtil.formatTimelessDate(new Date(), false);
 
     if (cell_date.getTime() < today.getTime()) {
+      // console.log("today as per formatDate === " + today);
+
+      console.log(
+        " 2222222222222222 as per caldate " +
+          each.parentElement.getAttribute("title")
+      );
+
+      console.log("celldate " + cell_date);
       each.style.backgroundColor = "lightgrey";
     } else {
       each.style.backgroundColor = "white";
