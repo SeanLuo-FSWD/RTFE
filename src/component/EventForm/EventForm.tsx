@@ -31,7 +31,10 @@ function EventForm({ payloadProp, closeModalProp }: any) {
     setFormValue({
       ...formValue,
       duration: [
-        CustomUtil.formatTimelessDate(payloadProp.event_obj.date, true),
+        CustomUtil.formatTimelessDate(
+          payloadProp.event_obj.date.toDateString(),
+          true
+        ),
       ],
     });
   }, []);
@@ -41,7 +44,10 @@ function EventForm({ payloadProp, closeModalProp }: any) {
   const onFormSubmit = () => {
     if (formValue.type === "once") {
       let dates_duration = formValue.duration.map((val: string) => {
-        return CustomUtil.formatTimelessDate(new Date(val), true);
+        return CustomUtil.formatTimelessDate(
+          new Date(val).toDateString(),
+          true
+        );
       });
 
       setFormValue({

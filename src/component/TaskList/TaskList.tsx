@@ -44,7 +44,7 @@ function TaskList() {
       return hasEvents;
     });
 
-    const today = CustomUtil.formatTimelessDate(new Date());
+    const today = CustomUtil.formatTimelessDate(new Date().toDateString());
     // calDate = CustomUtil.formatTimelessDate(calDate);
 
     let dateDisplay;
@@ -53,7 +53,7 @@ function TaskList() {
       dateDisplay = "Today";
     } else if (
       today.getTime() ===
-      CustomUtil.formatTimelessDate(calDate, false, {
+      CustomUtil.formatTimelessDate(calDate.toDateString(), false, {
         offsetType: "day",
         amount: -1,
       }).getTime()

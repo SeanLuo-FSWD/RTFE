@@ -5,7 +5,18 @@ import _ from "lodash";
 import getTasksforDay from "../../../helpers/getTasksforDay";
 
 const dateCellRender = (date: any, setModal: Function) => {
-  const calDate = CustomUtil.formatTimelessDate(date._d);
+  console.log("000000000000000000000");
+  // console.log("date._d.toDateString() " + date._d.toDateString());
+  console.log(
+    "date._d.toDateString() " + date._d.toISOString().replace(/T.*$/, "")
+  );
+  // date._d.toDateString() 2021-11-28
+  const calDate = CustomUtil.formatTimelessDate(
+    date._d.toDateString()
+  );
+  console.log("calDate " + calDate);
+
+  //calDate Sat Nov 27 2021 00:00:00 GMT-0800 (Pacific Standard Time)
 
   let ele_arr = null;
 

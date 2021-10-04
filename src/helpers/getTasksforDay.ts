@@ -33,6 +33,7 @@ const getTasksforDay = (calDate: any, item = true as any, ele: any) => {
   } else {
     const day = calDate.getDay();
     for (let i = 0; i < ele.days!.length; i++) {
+      console.log("day " + day + " ele.days![i] " + ele.days![i]);
       if (day === ele.days![i]) {
         return item;
       }

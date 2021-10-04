@@ -16,8 +16,8 @@ export const INITIAL_EVENTS = [
     //     " 00:00:00 GMT-0700 (Pacific Daylight Time)",
     // ],
     duration: [
-      CustomUtil.formatTimelessDate(new Date(), true),
-      CustomUtil.formatTimelessDate(new Date(), true),
+      CustomUtil.formatTimelessDate(new Date().toDateString(), true),
+      CustomUtil.formatTimelessDate(new Date().toDateString(), true),
     ],
     days: [],
   },
@@ -27,8 +27,8 @@ export const INITIAL_EVENTS = [
     type: "once",
     description: "first event description here",
     duration: [
-      CustomUtil.formatTimelessDate(new Date(), true),
-      CustomUtil.formatTimelessDate(new Date(), true, {
+      CustomUtil.formatTimelessDate(new Date().toDateString(), true),
+      CustomUtil.formatTimelessDate(new Date().toDateString(), true, {
         offsetType: "day",
         amount: 2,
       }),

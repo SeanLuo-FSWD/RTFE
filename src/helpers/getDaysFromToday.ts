@@ -5,7 +5,7 @@ const getDaysFromToday = (days: number) => {
 
   for (let i = 0; i < days; i++) {
     days_arr.push(
-      CustomUtil.formatTimelessDate(new Date(), false, {
+      CustomUtil.formatTimelessDate(new Date().toDateString(), false, {
         offsetType: "day",
         amount: i,
       })

@@ -9,16 +9,17 @@ class CustomUtil {
   }
 
   static formatTimelessDate(
-    day: Date,
+    day: String,
     typeString = false as boolean,
     offset = {
       offsetType: null,
       amount: 0,
     } as any
   ) {
-    let year = day.getFullYear();
-    let month = day.getMonth();
-    let date = day.getDate();
+    let dayPDT = new Date(day + " 01:00:00 GMT-0700 (Pacific Daylight Time)");
+    let year = dayPDT.getFullYear();
+    let month = dayPDT.getMonth();
+    let date = dayPDT.getDate();
 
     if (offset.offsetType) {
       // const offsetType = Object.keys(offset)[0];
@@ -41,11 +42,7 @@ class CustomUtil {
     //   new Date(year, month, date, 0, 0, 0).toISOString().replace(/T.*$/, "") +
     //   " 00:00:00 GMT-0700 (Pacific Daylight Time)";
 
-    console.log("1111111111111111111111 " + year + " " + month + " " + date);
-
     let formatDay: any = new Date(year, month, date, 0, 0, 0);
-
-    console.log("formatDay: " + formatDay);
 
     if (typeString) {
       formatDay = formatDay.toDateString();
